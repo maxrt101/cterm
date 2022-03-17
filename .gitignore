@@ -1,0 +1,17 @@
+
+# Object files
+*.o
+*.a
+*.so
+
+# Exec
+*.out
+*.exe
+*.app
+
+# Editors
+.vscode
+.sw*
+
+# Project specific
+build
