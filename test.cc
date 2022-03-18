@@ -1,5 +1,6 @@
 
-#include <cterm/cterm.h>
+#include <cterm/console.h>
+#include <cterm/panel.h>
 #include <cterm/input.h>
 #include <cterm/cursor.h>
 #include <cstdio>

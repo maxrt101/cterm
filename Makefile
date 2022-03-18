@@ -7,8 +7,7 @@ export AR     := ar
 export CFLAGS := -std=c++17 -I$(BUILD)/include
 
 TARGET := $(PREFIX)/lib/libcterm.a
-SRC    := src/cterm.cc \
-          src/colors.cc \
+SRC    := src/colors.cc \
           src/cursor.cc \
           src/input.cc \
           src/panel.cc \
@@ -31,7 +30,6 @@ compile: install-headers
 
 install-headers: prepare
 	$(info [+] Installing headers)
-	cp src/cterm.h $(PREFIX)/include/cterm
 	cp src/chars.h $(PREFIX)/include/cterm
 	cp src/input.h $(PREFIX)/include/cterm
 	cp src/panel.h $(PREFIX)/include/cterm
