@@ -1,18 +1,15 @@
 # cterm
 Library for ncurses-like TUI (Terminal User Interface).  
-Current features:  
- - Panels
- - Widgets
- - Layouts
- - Nice API
 
 ## How to build
-Prerequisites: `gcc` or `clang`, `make`
+Prerequisites: `gcc` or `clang`, `make`  
 Steps:  
  - Clone the repo
- - `cd cterm`
- - `make`
- - `make test`
+ - Run `make`
+ - Run `make test` for sample application
+
+Headers will be present in `build/include/cterm`, library in `build/lib/libcterm.a`.  
+Sample application can be found in `build/bin/test`.  
 
 ## Example
 
