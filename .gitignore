@@ -13,5 +13,8 @@
 .vscode
 .sw*
 
+# MacOS
+.DS_Store
+
 # Project specific
 build

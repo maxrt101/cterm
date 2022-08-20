@@ -2,51 +2,67 @@
 #include <cterm/cursor.h>
 #include <cterm/colors.h>
 
-cterm::Printer::Printer(int xoff, int yoff, int parentRows, int parentCols)
-  : m_xoff(xoff), m_yoff(yoff), m_parentRows(parentRows), m_parentCols(parentCols) {}
+cterm::Printer::Printer(int width, int height)
+  : m_width(width), m_height(height) {}
 
-int cterm::Printer::getParentRows() const {
-  return m_parentRows;
+int cterm::Printer::getXOffset() const {
+  return m_states.empty() ? 0 : m_states.back().xoff;
 }
 
-int cterm::Printer::getParentCols() const {
-  return m_parentCols;
+int cterm::Printer::getYOffset() const {
+  return m_states.empty() ? 0 : m_states.back().yoff;
 }
 
-void cterm::Printer::begin() {
-  m_isOperating = true;
-  m_lastBgColor = getBgColor();
-  m_lastFgColor = getFgColor();
+int cterm::Printer::getWidth() const {
+  return m_states.empty() ? m_width : m_states.back().width;
+}
+
+int cterm::Printer::getHeight() const {
+  return m_states.empty() ? m_height : m_states.back().height;
+}
+
+int cterm::Printer::getBgColor() const {
+  return m_states.empty() ? GREY : m_states.back().bgColor;
+}
+
+int cterm::Printer::getFgColor() const {
+  return m_states.empty() ? BLACK : m_states.back().fgColor;
+}
+
+int cterm::Printer::getRootWidth() const {
+  return m_height;
+}
+
+int cterm::Printer::getRootHeight() const {
+  return m_height;
+}
+
+void cterm::Printer::begin(int xoff, int yoff, int width, int height) {
+  m_states.push_back({xoff, yoff, width, height, getBgColor(), getFgColor()});
+  m_xoffAbsolute += xoff;
+  m_yoffAbsolute += yoff;
 }
 
 void cterm::Printer::end() {
-  m_isOperating = false;
-  cterm::setBgColor(m_lastBgColor);
-  cterm::setFgColor(m_lastFgColor);
-}
-
-void cterm::Printer::setOffset(int x, int y) {
-  m_xoff = x;
-  m_yoff = y;
-}
-
-void cterm::Printer::setParentDimensions(int parentRows, int parentCols) {
-  m_parentRows = parentRows;
-  m_parentCols = parentCols;
+  setBgColor(m_states.back().bgColor);
+  setFgColor(m_states.back().fgColor);
+  m_xoffAbsolute -= m_states.back().xoff;
+  m_yoffAbsolute -= m_states.back().yoff;
+  m_states.pop_back();
 }
 
 void cterm::Printer::setBgColor(int color) {
-  m_bgColor = color;
+  m_states.back().bgColor = color;
   cterm::setBgColor(color);
 }
 
 void cterm::Printer::setFgColor(int color) {
-  m_fgColor = color;
+  m_states.back().fgColor = color;
   cterm::setFgColor(color);
 }
 
 void cterm::Printer::moveCursor(int x, int y) {
-  cterm::moveCursor(m_xoff + x, m_yoff + y);
+  cterm::moveCursor(m_xoffAbsolute + x, m_yoffAbsolute + y);
 }
 
 void cterm::Printer::put(char c) {

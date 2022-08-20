@@ -3,6 +3,7 @@
 
 #include <cterm/panel.h>
 #include <cterm/colors.h>
+#include <cterm/value.h>
 #include <cstddef>
 #include <vector>
 
@@ -10,8 +11,8 @@ namespace cterm {
 
 class Console {
  private:
-  int m_rows = 0;
-  int m_cols = 0;
+  IntegerValue m_rows = 0;
+  IntegerValue m_cols = 0;
   int m_fgColor = BLACK;
   int m_bgColor = BRIGHT_BLUE;
 
@@ -21,8 +22,8 @@ class Console {
   Console();
   ~Console();
 
-  int getRows() const;
-  int getCols() const;
+  IntegerValue getRows() const;
+  IntegerValue getCols() const;
 
   Console& setFgColor(int fgColor);
   Console& setBgColor(int bgColor);

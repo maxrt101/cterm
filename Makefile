@@ -10,11 +10,13 @@ TARGET := $(PREFIX)/lib/libcterm.a
 SRC    := src/colors.cc \
           src/cursor.cc \
           src/input.cc \
-          src/panel.cc \
-          src/integer.cc \
-          src/console.cc \
+          src/value.cc \
           src/printer.cc \
-          src/elements/element.cc
+          src/panel.cc \
+          src/console.cc \
+          src/layout.cc \
+          src/widget.cc \
+					src/widgets/*.cc
 
 .PHONY: build
 
@@ -30,15 +32,8 @@ compile: install-headers
 
 install-headers: prepare
 	$(info [+] Installing headers)
-	cp src/chars.h $(PREFIX)/include/cterm
-	cp src/input.h $(PREFIX)/include/cterm
-	cp src/panel.h $(PREFIX)/include/cterm
-	cp src/colors.h $(PREFIX)/include/cterm
-	cp src/cursor.h $(PREFIX)/include/cterm
-	cp src/integer.h $(PREFIX)/include/cterm
-	cp src/console.h $(PREFIX)/include/cterm
-	cp src/printer.h $(PREFIX)/include/cterm
-	cp src/elements/element.h $(PREFIX)/include/cterm/elements
+	cp src/*.h $(PREFIX)/include/cterm
+	cp src/widgets/*.h $(PREFIX)/include/cterm/widgets
 
 prepare:
 	$(info [+] Creating directories)
@@ -49,7 +44,7 @@ prepare:
 	mkdir -p $(PREFIX)/lib
 	mkdir -p $(PREFIX)/include
 	mkdir -p $(PREFIX)/include/cterm
-	mkdir -p $(PREFIX)/include/cterm/elements
+	mkdir -p $(PREFIX)/include/cterm/widgets
 
 clean:
 	$(info [+] Cleaning up)

@@ -1,34 +1,103 @@
 
 #include <cterm/console.h>
+#include <cterm/colors.h>
 #include <cterm/panel.h>
 #include <cterm/input.h>
 #include <cterm/cursor.h>
+#include <cterm/layout.h>
+#include <cterm/widgets/text.h>
 #include <cstdio>
+
+/*
+
+widgets:
+ - Text
+ - Button
+ - Scrollable ?
+ - RadioButton
+
+layout:
+ - horizontal
+
+*/
 
 int main() {
   cterm::io::saveTerminalSettings();
+  cterm::io::showCursor(false);
 
   cterm::Console console;
+
   console.addPanel({
     .tag = "test_panel",
     .title = "Test",
-    .rows = console.getRows()/2,
-    .cols = console.getCols()/2,
-    .xoff = console.getCols()/4,
-    .yoff = console.getRows()/4,
+    .cols = console.getCols().percent(50),
+    .rows = console.getRows().percent(50),
+    .xoff = console.getCols().percent(25),
+    .yoff = console.getRows().percent(25),
     .bgColor = cterm::GREY,
     .fgColor = cterm::BLACK,
+    .drawBlackWhiteBorder = false,
+    .vLines = {
+      console.getRows().percent(50) - 3
+      // cterm::percent(60)
+    },
+    .layout = cterm::Layout::vertical({
+      .xoff = 2,
+      .widgets = {
+        cterm::widget::Text::create({
+          .text = "Test 123\nTEST 567 test 789",
+          .maxWidth = cterm::percent(100),
+          .maxHeight = 2,
+          // .bgColor = cterm::BRIGHT_GREEN,
+          .bgColor = cterm::GREY,
+          .fgColor = cterm::BLACK
+        }),
+        /*cterm::widget::Text::create({
+          .align = cterm::Widget::CENTER,
+          .text = "Yellow Text",
+          .maxWidth = cterm::percent(50),
+          .maxHeight = 1,
+          .bgColor = cterm::GREY,
+          // .bgColor = cterm::BRIGHT_YELLOW,
+          .fgColor = cterm::BLACK
+        }),*/
+        cterm::widget::Text::create({
+          .xoff = 1,
+          .yoff = console.getRows().percent(50)-4,
+          .text = "Status"
+        })
+      }
+    }),
   });
+
+  /*console.addPanel({
+    .tag = "test_panel",
+    .title = "Test",
+    .rows = console.getRows()-yoff,
+    .cols = console.getCols()-5,
+    .xoff = 3,
+    .yoff = yoff/2 + 1,
+    .bgColor = cterm::GREY,
+    .fgColor = cterm::BLACK,
+    // .drawBlackWhiteBorder = false,
+  });*/
 
   console.addPanel({
     .tag = "alert",
     .title = "Alert",
-    .rows = console.getRows()/4,
-    .cols = console.getCols()/4,
-    .xoff = console.getCols()/8*3,
-    .yoff = console.getRows()/8*3,
+    .rows = console.getRows().percent(25),
+    .cols = console.getCols().percent(25),
+    .xoff = console.getCols()/8,
+    .yoff = console.getRows()/8,
     .bgColor = cterm::RED,
     .titleColor = cterm::WHITE,
+    .layout = cterm::Layout::vertical({
+      .widgets = {
+        cterm::widget::Text::create({
+          .text = "Alerting the user that something important happend"
+        })
+      }
+    })
   });
 
   cterm::io::setOneCharRead(true);
@@ -62,5 +131,23 @@ int main() {
 
   cterm::moveCursor(0, console.getRows());
   cterm::io::restoreTerminalSettings();
+  cterm::io::showCursor(true);
   printf("\n");
 }
+
+/*
+
+Panel {
+  .contents = {
+    VerticalLayout {
+      .contents = {
+        HorizontalLayout {
+          .align = ALIGN_SPACE_BETWEEN,
+          .contents = {}
+        }
+      }
+    }
+  }
+}
+
+*/

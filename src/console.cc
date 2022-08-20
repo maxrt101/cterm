@@ -18,11 +18,11 @@ cterm::Console::Console() {
 
 cterm::Console::~Console() {}
 
-int cterm::Console::getRows() const {
+cterm::IntegerValue cterm::Console::getRows() const {
   return m_rows;
 }
 
-int cterm::Console::getCols() const {
+cterm::IntegerValue cterm::Console::getCols() const {
   return m_cols;
 }
 
@@ -37,7 +37,7 @@ cterm::Console& cterm::Console::setBgColor(int bgColor) {
 }
 
 void cterm::Console::updateDimensions() {
-  getDimensions(m_rows, m_cols);
+  getDimensions(m_rows.get(), m_cols.get());
 }
 
 void cterm::Console::clear() {
@@ -48,11 +48,10 @@ void cterm::Console::clear() {
 
 void cterm::Console::draw() {
   clear();
-  Printer printer(0, 0, m_rows, m_cols);
+  Printer printer(m_rows, m_cols);
   for (auto& panel : m_panels) {
     if (panel.active) {
-      printer.setOffset(panel.getXOffset(), panel.getYOffset());
-      printer.begin();
+      printer.begin(panel.getXOffset(), panel.getYOffset(), m_cols.get(), m_rows.get());
       printer.moveCursor(0, 0);
       panel.draw(printer);
       printer.end();
