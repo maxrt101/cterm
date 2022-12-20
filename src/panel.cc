@@ -45,14 +45,18 @@ cterm::Widget* cterm::Panel::getWidgetByTag(const std::string tag) const {
 void cterm::Panel::cycleSelection(bool backward) {
   layout->widgets[selectedIndex]->selected = false;
 
-  for (selectedIndex++; selectedIndex < layout->widgets.size(); selectedIndex++) {
-    if (layout->widgets[selectedIndex]->selectable) {
-      break;
-    }
-  }
-
-  if (selectedIndex + 1 >= layout->widgets.size()) {
-    selectedIndex = 0;
+  if (backward) {
+    for (selectedIndex--; selectedIndex >= 0; selectedIndex--)
+      if (layout->widgets[selectedIndex]->selectable)
+        break;
+    if (selectedIndex <= 0)
+      selectedIndex = layout->widgets.size()-1;
+  } else {
+    for (selectedIndex++; selectedIndex < layout->widgets.size(); selectedIndex++)
+      if (layout->widgets[selectedIndex]->selectable)
+        break;
+    if (selectedIndex + 1 >= layout->widgets.size())
+      selectedIndex = 0;
   }
 
   layout->widgets[selectedIndex]->selected = true;

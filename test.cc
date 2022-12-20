@@ -41,21 +41,21 @@ int main() {
           .fgColor = cterm::BLACK
         }),
         cterm::widget::Button::create({
-          .label = "show alert",
-          .bgColor = cterm::BLACK,
-          .fgColor = cterm::WHITE,
-          .selectBgColor = cterm::WHITE,
-          .selectFgColor = cterm::BLACK,
+          .label = "<Show Alert>",
+          .bgColor = cterm::GREY,
+          .fgColor = cterm::BLACK,
+          .selectBgColor = cterm::BLUE,
+          .selectFgColor = cterm::WHITE,
           .onClick = [&console]() {
             console.getPanelByTag("alert").active = !console.getPanelByTag("alert").active;
           }
         }),
         cterm::widget::Button::create({
-          .label = "test button",
-          .bgColor = cterm::RED,
-          .fgColor = cterm::GREEN,
-          .selectBgColor = cterm::GREEN,
-          .selectFgColor = cterm::RED,
+          .label = "<Change Text>",
+          .bgColor = cterm::GREY,
+          .fgColor = cterm::BLACK,
+          .selectBgColor = cterm::BLUE,
+          .selectFgColor = cterm::WHITE,
           .onClick = [&console]() {
             int& color = dynamic_cast<cterm::widget::Text*>(console.getPanelByTag("test_panel").getWidgetByTag("fill_text"))->fgColor;
             color = color == cterm::BLACK ? cterm::PURPLE : cterm::BLACK;
@@ -81,6 +81,7 @@ int main() {
   console.addPanel({
     .tag = "alert",
     .title = "Alert",
+    .active = false,
     .rows = console.getRows().percent(25),
     .cols = console.getCols().percent(25),
     .xoff = console.getCols()/8,
@@ -106,24 +107,12 @@ int main() {
     int c = cterm::io::getChar();
     switch (c) {
       case cterm::io::UP_ARROW:
-        console.getPanelByTag("alert").yoff--;
+        console.getPanelByTag("test_panel").cycleSelection(true);
         break;
       case cterm::io::DOWN_ARROW:
-        console.getPanelByTag("alert").yoff++;
-        break;
-      case cterm::io::LEFT_ARROW:
-        console.getPanelByTag("alert").xoff--;
-        break;
-      case cterm::io::RIGHT_ARROW:
-        console.getPanelByTag("alert").xoff++;
-        break;
-      case ' ':
-        console.getPanelByTag("alert").active = !console.getPanelByTag("alert").active;
-        break;
-      case 'n': // next button
         console.getPanelByTag("test_panel").cycleSelection();
         break;
-      case 's': // button select
+      case ' ':
         console.getPanelByTag("test_panel").toggleSelection();
         break;
       case 'q':
