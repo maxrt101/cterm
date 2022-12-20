@@ -42,25 +42,24 @@ cterm::Widget* cterm::Panel::getWidgetByTag(const std::string tag) const {
   return nullptr;
 }
 
-bool cterm::Panel::handleInput(char c) {
-  if (inputHandler) {
-    return inputHandler(c);
+void cterm::Panel::cycleSelection(bool backward) {
+  layout->widgets[selectedIndex]->selected = false;
+
+  for (selectedIndex++; selectedIndex < layout->widgets.size(); selectedIndex++) {
+    if (layout->widgets[selectedIndex]->selectable) {
+      break;
+    }
   }
 
-  switch (c) {
-    case io::UP_ARROW:
-      break;
-    case io::DOWN_ARROW:
-      break;
-    case io::LEFT_ARROW:
-      break;
-    case io::RIGHT_ARROW:
-      break;
-    case ' ':
-      break;
+  if (selectedIndex + 1 >= layout->widgets.size()) {
+    selectedIndex = 0;
   }
 
-  return true;
+  layout->widgets[selectedIndex]->selected = true;
+}
+
+void cterm::Panel::toggleSelection() {
+  layout->widgets[selectedIndex]->click();
 }
 
 void cterm::Panel::draw(Printer& printer) {

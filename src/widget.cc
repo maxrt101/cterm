@@ -10,3 +10,5 @@ cterm::IntegerValue cterm::Widget::getHeight() const {
 }
 
 void cterm::Widget::draw(Printer& printer) {}
+
+void cterm::Widget::click() {}

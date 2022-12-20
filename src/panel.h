@@ -16,7 +16,7 @@ namespace cterm {
 class Console;
 
 struct Panel {
-  using InputHandler = std::function<bool(char)>;
+  // using InputHandler = std::function<bool(char)>;
 
   std::string tag;
   std::string title;
@@ -40,14 +40,18 @@ struct Panel {
 
   bool active = true;
 
-  InputHandler inputHandler = nullptr;
+  // InputHandler inputHandler = nullptr;
   int selectedIndex = 0;
 
   Layout* layout;
+  size_t selectedWidget;
 
  public:
   void draw(Printer& printer);
-  bool handleInput(char c);
+  // bool handleInput(char c);
+
+  void cycleSelection(bool backward = false);
+  void toggleSelection();
 
   int getRows() const;
   int getCols() const;

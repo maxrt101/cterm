@@ -17,11 +17,14 @@ struct Widget {
   int xoff = 0;
   int yoff = 0;
   Align align = LEFT;
+  bool selectable = false;
+  bool selected = false;
 
   virtual IntegerValue getWidth() const;
   virtual IntegerValue getHeight() const;
 
   virtual void draw(Printer& printer);
+  virtual void click();
 };
 
 } /* namespace cterm */

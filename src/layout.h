@@ -35,6 +35,7 @@ class Layout {
 
   static Layout* vertical(LayoutArgs args);
   static Layout* horizontal(LayoutArgs args);
+  // grid?
 };
 
 } /* namespace cterm */

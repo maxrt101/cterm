@@ -11,12 +11,29 @@ namespace widget {
 struct Button : public Widget {
   using CallbackT = std::function<void()>;
 
-  std::string label = "Button";
+  struct ButtonArgs {
+    std::string tag = "";
+    int xoff = 0;
+    int yoff = 0;
+    int bgColor = -1;
+    int fgColor = -1;
+    int selectBgColor = -1;
+    int selectFgColor = -1;
+    std::string label = "";
+    CallbackT onClick = nullptr;
+  };
+
+  int bgColor = -1;
+  int fgColor = -1;
+  int selectBgColor = -1;
+  int selectFgColor = -1;
+  std::string label = "";
   CallbackT onClick = nullptr;
 
   void draw(Printer& printer) override;
+  void click() override;
 
-  static Button* create(const std::string& label, CallbackT clickHandler);
+  static Button* create(ButtonArgs args);
 };
 
 } /* namespace widget */

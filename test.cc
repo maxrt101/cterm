@@ -1,4 +1,3 @@
-
 #include <cterm/console.h>
 #include <cterm/colors.h>
 #include <cterm/panel.h>
@@ -6,10 +5,12 @@
 #include <cterm/cursor.h>
 #include <cterm/layout.h>
 #include <cterm/widgets/text.h>
+#include <cterm/widgets/button.h>
 #include <cstdio>
 
 
 int main() {
+  system("echo start >> log");
   cterm::io::saveTerminalSettings();
   cterm::io::showCursor(false);
 
@@ -32,11 +33,33 @@ int main() {
       .xoff = 2,
       .widgets = {
         cterm::widget::Text::create({
+          .tag = "fill_text",
           .text = "Test 123\nTEST 567 test 789",
           .maxWidth = cterm::percent(100),
           .maxHeight = 2,
           .bgColor = cterm::GREY,
           .fgColor = cterm::BLACK
+        }),
+        cterm::widget::Button::create({
+          .label = "show alert",
+          .bgColor = cterm::BLACK,
+          .fgColor = cterm::WHITE,
+          .selectBgColor = cterm::WHITE,
+          .selectFgColor = cterm::BLACK,
+          .onClick = [&console]() {
+            console.getPanelByTag("alert").active = !console.getPanelByTag("alert").active;
+          }
+        }),
+        cterm::widget::Button::create({
+          .label = "test",
+          .bgColor = cterm::RED,
+          .fgColor = cterm::GREEN,
+          .selectBgColor = cterm::GREEN,
+          .selectFgColor = cterm::RED,
+          .onClick = [&console]() {
+            int& color = dynamic_cast<cterm::widget::Text*>(console.getPanelByTag("test_panel").getWidgetByTag("fill_text"))->fgColor;
+            color = color == cterm::BLACK ? cterm::PURPLE : cterm::BLACK;
+          }
         }),
         cterm::widget::Text::create({
           .xoff = 1,
@@ -88,6 +111,12 @@ int main() {
         break;
       case ' ':
         console.getPanelByTag("alert").active = !console.getPanelByTag("alert").active;
+        break;
+      case 'n': // next button
+        console.getPanelByTag("test_panel").cycleSelection();
+        break;
+      case 's': // button select
+        console.getPanelByTag("test_panel").toggleSelection();
         break;
       case 'q':
         running = false;
