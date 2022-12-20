@@ -10,7 +10,6 @@
 
 
 int main() {
-  system("echo start >> log");
   cterm::io::saveTerminalSettings();
   cterm::io::showCursor(false);
 
@@ -51,7 +50,7 @@ int main() {
           }
         }),
         cterm::widget::Button::create({
-          .label = "test",
+          .label = "test button",
           .bgColor = cterm::RED,
           .fgColor = cterm::GREEN,
           .selectBgColor = cterm::GREEN,
