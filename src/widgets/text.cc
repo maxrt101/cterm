@@ -120,6 +120,8 @@ cterm::widget::Text* cterm::widget::Text::create(TextArgs args) {
   textWidget->tag = args.tag;
   textWidget->xoff = args.xoff;
   textWidget->yoff = args.yoff;
+  textWidget->xabs = args.xabs;
+  textWidget->yabs = args.yabs;
   textWidget->maxWidth = args.maxWidth;
   textWidget->maxHeight = args.maxHeight;
   textWidget->bgColor = args.bgColor;

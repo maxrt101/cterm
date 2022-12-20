@@ -24,6 +24,8 @@ cterm::widget::Button* cterm::widget::Button::create(ButtonArgs args) {
   buttonWidget->tag = args.tag;
   buttonWidget->xoff = args.xoff;
   buttonWidget->yoff = args.yoff;
+  buttonWidget->xabs = args.xabs;
+  buttonWidget->yabs = args.yabs;
   buttonWidget->label = args.label;
   buttonWidget->selectable = true;
   buttonWidget->bgColor = args.bgColor;

@@ -15,6 +15,8 @@ struct Text : public Widget {
     std::string tag = "";
     int xoff = 0;
     int yoff = 0;
+    int xabs = 0;
+    int yabs = 0;
     int bgColor = -1;
     int fgColor = -1;
     IntegerValue maxWidth = -1;

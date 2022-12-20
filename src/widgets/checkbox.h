@@ -1,5 +1,5 @@
-#ifndef _CTERM_WIDGETS_BUTTON_H_
-#define _CTERM_WIDGETS_BUTTON_H_ 1
+#ifndef _CTERM_WIDGETS_CHECKBOX_H_
+#define _CTERM_WIDGETS_CHECKBOX_H_ 1
 
 #include <cterm/widget.h>
 #include <functional>
@@ -8,10 +8,8 @@
 namespace cterm {
 namespace widget {
 
-struct Button : public Widget {
-  using CallbackT = std::function<void()>;
-
-  struct ButtonArgs {
+struct Checkbox : public Widget {
+  struct CheckboxArgs {
     std::string tag = "";
     int xoff = 0;
     int yoff = 0;
@@ -22,23 +20,27 @@ struct Button : public Widget {
     int selectBgColor = -1;
     int selectFgColor = -1;
     std::string label = "";
-    CallbackT onClick = nullptr;
+    std::string unchecked_prefix = "[ ]";
+    std::string checked_prefix = "[*]";
+    bool checked = false;
   };
 
   int bgColor = -1;
   int fgColor = -1;
   int selectBgColor = -1;
   int selectFgColor = -1;
+  std::string unchecked_prefix = "[ ]";
+  std::string checked_prefix = "[*]";
   std::string label = "";
-  CallbackT onClick = nullptr;
+  bool checked = false;
 
   void draw(Printer& printer) override;
   void click() override;
 
-  static Button* create(ButtonArgs args);
+  static Checkbox* create(CheckboxArgs args);
 };
 
 } /* namespace widget */
 } /* namespace cterm */
 
-#endif /* _CTERM_WIDGETS_BUTTON_H_ */
+#endif /* _CTERM_WIDGETS_CHECKBOX_H_ */

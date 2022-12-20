@@ -6,22 +6,22 @@ void cterm::Layout::draw(cterm::Printer& printer) {
     for (auto& widget : widgets) {
       if (widget->align == Widget::LEFT) {
         printer.begin(
-          widget->xoff ? widget->xoff : xoff,
-          widget->yoff ? widget->yoff : offset,
+          widget->xabs ? widget->xabs : xoff,
+          widget->yabs ? widget->yabs : offset,
           printer.getWidth() - 2 - xoff * 2,
           printer.getHeight() - 2 - yoff * 2
         );
       } else if (widget->align == Widget::CENTER) {
         printer.begin(
           (printer.getWidth() - widget->getWidth()) / 2,
-          widget->yoff ? widget->yoff : offset,
+          widget->yabs ? widget->yabs : offset,
           printer.getWidth() - 2 - xoff * 2,
           printer.getHeight() - 2 - yoff * 2
         );
       } else if (widget->align == Widget::RIGHT) {
         printer.begin(
           xoff * 2 + printer.getWidth() - widget->getWidth(),
-          widget->yoff ? widget->yoff : offset,
+          widget->yabs ? widget->yabs : offset,
           printer.getWidth() - 2 - xoff * 2,
           printer.getHeight() - 2 - yoff * 2
         );

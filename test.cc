@@ -6,6 +6,7 @@
 #include <cterm/layout.h>
 #include <cterm/widgets/text.h>
 #include <cterm/widgets/button.h>
+#include <cterm/widgets/checkbox.h>
 #include <cstdio>
 
 
@@ -60,9 +61,17 @@ int main() {
             color = color == cterm::BLACK ? cterm::PURPLE : cterm::BLACK;
           }
         }),
+        cterm::widget::Checkbox::create({
+          .yoff = 1,
+          .label = "Enable test",
+          .bgColor = cterm::GREY,
+          .fgColor = cterm::BLACK,
+          .selectBgColor = cterm::BLUE,
+          .selectFgColor = cterm::WHITE,
+        }),
         cterm::widget::Text::create({
           .xoff = 1,
-          .yoff = console.getRows().percent(50)-4,
+          .yabs = console.getRows().percent(50)-4,
           .text = "Status"
         })
       }

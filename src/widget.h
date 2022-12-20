@@ -16,6 +16,8 @@ struct Widget {
   std::string tag = "";
   int xoff = 0;
   int yoff = 0;
+  int xabs = 0;
+  int yabs = 0;
   Align align = LEFT;
   bool selectable = false;
   bool selected = false;
